@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Getter
-@Entity
 public abstract class BaseDao implements Serializable {
     @Id
     @GeneratedValue(generator="system-uuid")
