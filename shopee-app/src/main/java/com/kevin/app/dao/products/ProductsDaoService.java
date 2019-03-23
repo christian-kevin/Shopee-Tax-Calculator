@@ -1,6 +1,5 @@
-package com.kevin.app.dao_service;
+package com.kevin.app.dao.products;
 
-import com.kevin.app.dao.Products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,7 @@
 package com.kevin.app.controller;
 
-import com.kevin.app.dao.Products;
-import com.kevin.app.dao_service.ProductsDaoService;
+import com.kevin.app.dao.products.Products;
+import com.kevin.app.dao.products.ProductsDaoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,7 @@ public class TestController {
 
     @GetMapping(path = "/insert")
     public String testCreateProduct() {
-        Products products = new Products("makanan");
+        Products products = new Products("makanan", 2000);
         productsDaoService.persistProducts(products);
         return "baba";
     }
