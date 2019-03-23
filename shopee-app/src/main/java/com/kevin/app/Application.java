@@ -1,13 +1,13 @@
-package com.kevin.shopeeapp;
+package com.kevin.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShopeeAppApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShopeeAppApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
