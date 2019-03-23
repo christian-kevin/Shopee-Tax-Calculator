@@ -7,15 +7,19 @@ services:
       - MYSQL_DATABASE=app
       - MYSQL_USER=kevin
       - MYSQL_PASSWORD=test123
+    restart: always
+    command: --init-file /data/mysql/init.sql
+    volumes:
+        - /data/mysql
+        - ./init.sql:/data/mysql/init.sql
     ports:
       - 4402:3306
-    volumes:
-      - /data/mysql
   spring-boot-jpa:
     image: spring-boot-jpa-image
     build:
       context: ./
       dockerfile: Dockerfile
+    restart: always
     depends_on:
       - mysql
     ports:
