@@ -4,6 +4,7 @@ import com.kevin.app.dao.BaseDao;
 import com.kevin.app.dao.product_taxes.ProductTaxes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class Products extends BaseDao {
     private int price;
 
     @OneToMany(mappedBy="product")
+    @Setter
     private Set<ProductTaxes> productTaxes;
 
     public Products(String name, int price) {

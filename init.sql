@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
 	);
+CREATE INDEX `idx_products_name` ON `products`(`name`);
 
 CREATE TABLE IF NOT EXISTS `product_taxes` (
 	`id` VARCHAR(60) NOT NULL, 

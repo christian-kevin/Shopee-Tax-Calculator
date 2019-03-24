@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 
 @Getter
-public class EntertainmentTax implements ITax {
+public class EntertainmentTaxEntity implements ITaxEntity {
     private int taxCode = 3;
     private String type = "Entertainment";
     private boolean isRefundable = false;

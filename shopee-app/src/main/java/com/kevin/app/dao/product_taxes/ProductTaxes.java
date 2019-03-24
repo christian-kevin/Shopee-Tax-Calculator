@@ -4,6 +4,7 @@ import com.kevin.app.dao.BaseDao;
 import com.kevin.app.dao.products.Products;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductTaxes extends BaseDao {
     @ManyToOne
     @JoinColumn(name="product_id")
