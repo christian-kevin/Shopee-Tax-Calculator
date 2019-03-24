@@ -13,8 +13,8 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseDao implements Serializable {
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator="uuid")
+    @GenericGenerator(name="uuid", strategy = "uuid2")
     @Column(name="id", nullable = false, unique = true)
     private String id;
 
