@@ -14,4 +14,4 @@ RUN cp /shopee-app/code/target/*.jar ./app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar","-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"]
+ENTRYPOINT ["java","-jar", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000","app.jar"]
