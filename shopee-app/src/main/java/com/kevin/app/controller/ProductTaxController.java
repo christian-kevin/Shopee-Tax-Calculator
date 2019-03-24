@@ -2,6 +2,7 @@ package com.kevin.app.controller;
 
 import com.kevin.app.entity.product.ProductEntity;
 import com.kevin.app.entity.request.ProductTaxRequest;
+import com.kevin.app.entity.response.BillResponse;
 import com.kevin.app.entity.response.ProductTaxResponse;
 import com.kevin.app.service.product.IProductManager;
 import com.kevin.app.service.tax.ITaxFactory;
@@ -37,10 +38,19 @@ public class ProductTaxController {
     }
 
     @GetMapping()
-    public List<ProductTaxResponse> getBill() {
+    public List<ProductTaxResponse> getAllProducts() {
         return productManager.getAllProducts()
                 .stream()
                 .map(ProductTaxResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("bills")
+    public BillResponse getBills() {
+        List<ProductTaxResponse> productTaxResponses = productManager.getAllProducts()
+                .stream()
+                .map(ProductTaxResponse::new)
+                .collect(Collectors.toList());
+        return new BillResponse(productTaxResponses);
     }
 }

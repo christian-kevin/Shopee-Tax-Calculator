@@ -24,11 +24,11 @@ public class ProductTaxResponse {
 
     public ProductTaxResponse(ProductEntity productEntity) {
         this.name = productEntity.getName();
-        this.taxCode = productEntity.getTaxCode();
+        this.taxCode = productEntity.getTax().getTaxCode();
         this.type = productEntity.getTax().getType();
         this.price = productEntity.getPrice();
         this.refundable = productEntity.getTax().isRefundable();
-        this.taxAmount = productEntity.getTaxAmount();
-        this.amount = productEntity.getAmount();
+        this.taxAmount = productEntity.getTax().calculateTax(price);
+        this.amount = new BigDecimal(price).add(productEntity.getTax().calculateTax(price));
     }
 }

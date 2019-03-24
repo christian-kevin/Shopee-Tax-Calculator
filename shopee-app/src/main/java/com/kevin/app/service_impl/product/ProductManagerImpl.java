@@ -36,7 +36,7 @@ public class ProductManagerImpl implements IProductManager {
     private void setTaxCode(Products products, ProductEntity productEntity) {
         List<ProductTaxes> productTaxes = new ArrayList<>();
 
-        ITaxEntity entity = taxFactory.getTaxEntity(productEntity.getTaxCode());
+        ITaxEntity entity = taxFactory.getTaxEntity(productEntity.getTax().getTaxCode());
         productTaxes.add(new ProductTaxes(products, entity.getTaxCode()));
         products.setProductTaxes(productTaxes);
     }
