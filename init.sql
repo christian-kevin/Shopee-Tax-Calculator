@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`)
-	);
-CREATE INDEX `idx_products_name` ON `products`(`name`);
+	) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `product_taxes` (
 	`id` VARCHAR(60) NOT NULL, 
@@ -17,5 +16,7 @@ CREATE TABLE IF NOT EXISTS `product_taxes` (
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`), 
-	constraint fk_product_producttax FOREIGN KEY (product_id) REFERENCES products(id)
-	);
+	constraint fk_product_producttax FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+	) ENGINE=InnoDB;
+
+CREATE INDEX `idx_products_name` ON `products`(`name`);

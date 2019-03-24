@@ -20,7 +20,7 @@ public class Products extends BaseDao {
     @Column(name="price", nullable = false)
     private int price;
 
-    @OneToMany(mappedBy="product")
+    @OneToMany(mappedBy="product", cascade=CascadeType.ALL)
     @Setter
     private Set<ProductTaxes> productTaxes;
 

@@ -35,9 +35,6 @@ public class ProductManagerImpl implements IProductManager {
         Products product = new Products(productEntity.getName(), productEntity.getPrice());
         setTaxCode(product, productEntity);
         productsDaoService.persistProducts(product);
-
-        for (ProductTaxes productTaxes: product.getProductTaxes())
-            productTaxesDaoService.persistProductTaxes(productTaxes);
     }
 
     private void setTaxCode(Products products, IProductTaxEntity productEntity) {
