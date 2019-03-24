@@ -7,7 +7,7 @@ RUN mvn dependency:go-offline -B
 
 COPY ./shopee-app ./
 
-RUN mvn package -DskipTests
+RUN mvn package
 
 WORKDIR /shopee-app/app
 RUN cp /shopee-app/code/target/*.jar ./app.jar

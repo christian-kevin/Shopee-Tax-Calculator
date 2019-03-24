@@ -2,12 +2,14 @@ package com.kevin.app.entity.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.kevin.app.entity.product_tax.BillEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
@@ -19,10 +21,13 @@ public class BillResponse {
     private BigDecimal taxSubtotal;
     private BigDecimal grandTotal;
 
-    public BillResponse(List<ProductTaxResponse> products) {
-        this.products = products;
-        this.priceSubtotal = products.stream().map(product -> new BigDecimal(product.getPrice())).reduce(BigDecimal::add).get();
-        this.taxSubtotal = products.stream().map(ProductTaxResponse::getTaxAmount).reduce(BigDecimal::add).get();
-        this.grandTotal = priceSubtotal.add(taxSubtotal);
+    public BillResponse(BillEntity billEntity) {
+        this.products = billEntity.getProductTaxEntities()
+                .stream()
+                .map(ProductTaxResponse::new)
+                .collect(Collectors.toList());
+        this.priceSubtotal = billEntity.getPriceSubtotal();
+        this.taxSubtotal = billEntity.getTaxSubtotal();
+        this.grandTotal = billEntity.getGrandTotal();
     }
 }

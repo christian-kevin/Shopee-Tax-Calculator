@@ -1,6 +1,7 @@
 package com.kevin.app.controller;
 
-import com.kevin.app.entity.product.ProductEntity;
+import com.kevin.app.entity.product_tax.BillEntity;
+import com.kevin.app.entity.product_tax.ProductTaxEntity;
 import com.kevin.app.entity.request.ProductTaxRequest;
 import com.kevin.app.entity.response.BillResponse;
 import com.kevin.app.entity.response.ProductTaxResponse;
@@ -30,11 +31,12 @@ public class ProductTaxController {
 
     @PostMapping()
     public void createProductTax(@RequestBody ProductTaxRequest request) {
-        ProductEntity product = new ProductEntity(
-                taxFactory.getTaxEntity(request.getTaxCode()),
-                request.getName(),
-                request.getPrice());
-        productManager.persistProductEntity(product);
+        ProductTaxEntity product = ProductTaxEntity.builder()
+                .tax(taxFactory.getTaxEntity(request.getTaxCode()))
+                .name(request.getName())
+                .price(request.getPrice())
+                .build();
+        productManager.persistProductTaxEntity(product);
     }
 
     @GetMapping()
@@ -47,10 +49,7 @@ public class ProductTaxController {
 
     @GetMapping("bills")
     public BillResponse getBills() {
-        List<ProductTaxResponse> productTaxResponses = productManager.getAllProducts()
-                .stream()
-                .map(ProductTaxResponse::new)
-                .collect(Collectors.toList());
-        return new BillResponse(productTaxResponses);
+        BillEntity bill = productManager.createBill();
+        return new BillResponse(bill);
     }
 }

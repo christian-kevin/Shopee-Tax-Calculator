@@ -2,7 +2,7 @@ package com.kevin.app.entity.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.kevin.app.entity.product.ProductEntity;
+import com.kevin.app.entity.product_tax.ProductTaxEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,15 +20,18 @@ public class ProductTaxResponse {
     private boolean refundable;
     private int price;
     private BigDecimal taxAmount;
-    private BigDecimal amount;
+    private BigDecimal afterTaxAmount;
 
-    public ProductTaxResponse(ProductEntity productEntity) {
-        this.name = productEntity.getName();
-        this.taxCode = productEntity.getTax().getTaxCode();
-        this.type = productEntity.getTax().getType();
-        this.price = productEntity.getPrice();
-        this.refundable = productEntity.getTax().isRefundable();
-        this.taxAmount = productEntity.getTax().calculateTax(price);
-        this.amount = new BigDecimal(price).add(productEntity.getTax().calculateTax(price));
+    public ProductTaxResponse(ProductTaxEntity productTaxEntity) {
+        if (productTaxEntity.getTax() != null) {
+            this.taxCode = productTaxEntity.getTax().getTaxCode();
+            this.type = productTaxEntity.getTax().getType();
+            this.refundable = productTaxEntity.getTax().isRefundable();
+            this.taxAmount = productTaxEntity.getTaxAmount();
+            this.afterTaxAmount = productTaxEntity.getAfterTaxAmount();
+        }
+
+        this.price = productTaxEntity.getPrice();
+        this.name = productTaxEntity.getName();
     }
 }
