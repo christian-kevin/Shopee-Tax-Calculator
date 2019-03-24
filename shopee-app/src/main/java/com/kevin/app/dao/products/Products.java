@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="products")
@@ -22,7 +22,7 @@ public class Products extends BaseDao {
 
     @OneToMany(mappedBy="product", cascade=CascadeType.ALL)
     @Setter
-    private Set<ProductTaxes> productTaxes;
+    private List<ProductTaxes> productTaxes;
 
     public Products(String name, int price) {
         this.name = name;

@@ -1,7 +1,10 @@
 package com.kevin.app.service.product;
 
-import com.kevin.app.service_impl.product.entity.IProductTaxEntity;
+import com.kevin.app.entity.product.ProductEntity;
+
+import java.util.List;
 
 public interface IProductManager {
-    void persistProductEntity(IProductTaxEntity productEntity);
+    void persistProductEntity(ProductEntity productEntity);
+    List<ProductEntity> getAllProducts();
 }

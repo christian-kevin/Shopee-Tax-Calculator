@@ -1,15 +1,20 @@
 package com.kevin.app.controller;
 
 import com.kevin.app.entity.product.ProductEntity;
+import com.kevin.app.entity.request.ProductTaxRequest;
+import com.kevin.app.entity.response.ProductTaxResponse;
 import com.kevin.app.service.product.IProductManager;
 import com.kevin.app.service.tax.ITaxFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
+@RequestMapping("/product-taxes")
 public class ProductTaxController {
 
     private IProductManager productManager;
@@ -22,10 +27,20 @@ public class ProductTaxController {
         this.taxFactory = taxFactory;
     }
 
-    @GetMapping(path = "/insert")
-    public String testCreateProduct() {
-        ProductEntity product = new ProductEntity(taxFactory.getTaxEntity(1), "makanan", 2000);
+    @PostMapping()
+    public void createProductTax(@RequestBody ProductTaxRequest request) {
+        ProductEntity product = new ProductEntity(
+                taxFactory.getTaxEntity(request.getTaxCode()),
+                request.getName(),
+                request.getPrice());
         productManager.persistProductEntity(product);
-        return "baba";
+    }
+
+    @GetMapping()
+    public List<ProductTaxResponse> getBill() {
+        return productManager.getAllProducts()
+                .stream()
+                .map(ProductTaxResponse::new)
+                .collect(Collectors.toList());
     }
 }

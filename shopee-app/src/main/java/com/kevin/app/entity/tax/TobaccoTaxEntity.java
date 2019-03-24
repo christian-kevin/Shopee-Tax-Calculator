@@ -12,6 +12,6 @@ public class TobaccoTaxEntity implements ITaxEntity {
 
     @Override
     public BigDecimal calculateTax(int price) {
-        return new BigDecimal(10 + (0.2 * price));
+        return new BigDecimal(10 + (0.02 * price));
     }
 }

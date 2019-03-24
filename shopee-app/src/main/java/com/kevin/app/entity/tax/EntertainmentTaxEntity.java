@@ -15,7 +15,7 @@ public class EntertainmentTaxEntity implements ITaxEntity {
         if (0 < price && price < 100) {
             return new BigDecimal(0);
         } else if (price >= 100) {
-            return new BigDecimal(0.1 * (price - 100));
+            return new BigDecimal(0.01 * (price - 100));
         } else {
             throw new IllegalArgumentException("Price is not valid.");
         }
