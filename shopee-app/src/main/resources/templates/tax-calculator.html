@@ -94,7 +94,13 @@
                 }),
                 complete: function (res) {
                     if (res.status === 200) {
-                        getData(appendLastRow);
+                        var aggAddFunc = function(data) {
+                            appendLastRow(data);
+                            $("#grand_total").empty();
+                            appendGrandTotal(data);
+                        };
+
+                        getData(aggAddFunc);
                     }
                 }
             });
