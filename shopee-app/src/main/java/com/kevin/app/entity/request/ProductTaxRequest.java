@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductTaxRequest {
-    private int taxCode;
+    private Integer taxCode;
     private String name;
-    private int price;
+    private Integer price;
 }

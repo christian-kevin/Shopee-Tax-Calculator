@@ -9,6 +9,8 @@ import com.kevin.app.service.product.IProductManager;
 import com.kevin.app.service.tax.ITaxFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,13 +33,32 @@ public class ProductTaxController {
     }
 
     @PostMapping()
-    public void createProductTax(@RequestBody ProductTaxRequest request) {
+    public ResponseEntity createProductTax(@RequestBody ProductTaxRequest request) {
+        if (!validateCreateTaxRequest(request)) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
         ProductTaxEntity product = ProductTaxEntity.builder()
                 .tax(taxFactory.getTaxEntity(request.getTaxCode()))
                 .name(request.getName())
                 .price(request.getPrice())
                 .build();
         productManager.persistProductTaxEntity(product);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private boolean validateCreateTaxRequest(ProductTaxRequest request) {
+        if (request.getName() == null || request.getPrice() == null || request.getTaxCode() == null ) {
+            return false;
+        }
+
+        try {
+            taxFactory.getTaxEntity(request.getTaxCode());
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     @GetMapping()
