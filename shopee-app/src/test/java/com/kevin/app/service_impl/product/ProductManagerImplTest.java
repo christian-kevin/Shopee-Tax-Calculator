@@ -20,6 +20,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductManagerImplTest {
@@ -100,7 +101,10 @@ public class ProductManagerImplTest {
 
         setupGetAllProducts(productName, price, taxCode);
 
-        BillEntity billEntity = underTest.createBill();
+        Optional<BillEntity> billEntityOpt = underTest.createBill();
+
+        assertTrue(billEntityOpt.isPresent());
+        BillEntity billEntity = billEntityOpt.get();
 
         assertEquals(billEntity.getPriceSubtotal(), new BigDecimal(price));
         assertEquals(billEntity.getTaxSubtotal(), taxFactory.getTaxEntity(taxCode).calculateTax(price));

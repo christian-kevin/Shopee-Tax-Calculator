@@ -1,0 +1,112 @@
+<html>
+
+<head>
+    <title>Tax Calculator</title>
+</head>
+<body>
+    <form id="form" action="" method="post">
+        Name: <input type="text" name="name" id="name" style="margin-left: 20px"><br>
+        Price: <input type="number" name="price" id="price" style="margin-left: 20px"><br>
+        Tax Code: <input type="number" name="tax_code" id="tax_code" style="margin-left: 20px"><br>
+        <input id="submit" type="button" name="submit" value="submit">
+    </form>
+
+    <table id="product" border='1' style="margin-top: 20px">
+        <tr>
+            <th>Name</th>
+            <th>Tax Code</th>
+            <th>Type</th>
+            <th>Refundable</th>
+            <th>Price</th>
+            <th>Tax</th>
+            <th>Amount</th>
+        </tr>
+    </table>
+
+    <div id="grand_total" style="margin-top: 20px"></div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    var appendHtmlRow = function(item){
+        var isRefundable = item.refundable ? "Yes" : "No";
+        $("#product tbody").append(
+            "<tr>"
+            +"<td>"+item.name+"</td>"
+            +"<td>"+item.tax_code+"</td>"
+            +"<td>"+item.type+"</td>"
+            +"<td>"+isRefundable+"</td>"
+            +"<td>"+item.price+"</td>"
+            +"<td>"+item.tax_amount+"</td>"
+            +"<td>"+item.after_tax_amount+"</td>"
+            +"</tr>" )
+    };
+
+    var appendRow = function (data) {
+        if (!data.products) return;
+
+        $.each(data.products, function (i, item) {
+            appendHtmlRow(item);
+        });
+    };
+
+    var appendLastRow = function (data) {
+        if (!data.products) return;
+
+        appendHtmlRow(data.products[data.products.length - 1]);
+    };
+
+    var appendGrandTotal = function (data) {
+        $("#grand_total").append(
+            "<ol>"
+            +"<li>Price Subtotal: " + (!data.price_subtotal ? 0 : data.price_subtotal) + "</li>"
+            +"<li>Tax Subtotal: " + (!data.tax_subtotal ? 0 : data.tax_subtotal) + "</li>"
+            +"<li>Grand Total: " + (!data.grand_total ? 0 : data.grand_total) + "</li>"
+            +"</ol>"
+        );
+    };
+
+    var getData = function(callback) {
+        $.ajax(
+            {
+                type: "GET",
+                url: "/product-taxes/bills",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    callback(data);
+                },
+            });
+    };
+
+    $(document).ready(function(){
+        $("#submit").on('click', function(){
+            $.ajax({
+                url : '/product-taxes',
+                type : "POST",
+                dataType : 'json',
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify({
+                    name: $("#name").val(),
+                    price: $("#price").val(),
+                    tax_code: $("#tax_code").val()
+                }),
+                complete: function (res) {
+                    if (res.status === 200) {
+                        getData(appendLastRow);
+                    }
+                }
+            });
+        });
+        var aggFunc = function(data) {
+            appendRow(data);
+            appendGrandTotal(data);
+        };
+
+        getData(aggFunc);
+    });
+
+</script>
+
+</html>

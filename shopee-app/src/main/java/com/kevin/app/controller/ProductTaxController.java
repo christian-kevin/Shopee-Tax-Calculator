@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,7 +50,7 @@ public class ProductTaxController {
 
     @GetMapping("bills")
     public BillResponse getBills() {
-        BillEntity bill = productManager.createBill();
-        return new BillResponse(bill);
+        Optional<BillEntity> billOpt = productManager.createBill();
+        return billOpt.isPresent() ? new BillResponse(billOpt.get()) : new BillResponse();
     }
 }

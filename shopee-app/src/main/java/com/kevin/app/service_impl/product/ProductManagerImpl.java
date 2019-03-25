@@ -71,8 +71,12 @@ public class ProductManagerImpl implements IProductManager {
         }).collect(Collectors.toList());
     }
 
-    public BillEntity createBill() {
+    public Optional<BillEntity> createBill() {
         List<ProductTaxEntity> productTaxEntities = getAllProducts();
+        if (productTaxEntities.size() <= 0) {
+            return Optional.empty();
+        }
+
         BigDecimal priceSubtotal = productTaxEntities
                 .stream()
                 .map(product -> new BigDecimal(product.getPrice()))
@@ -86,7 +90,7 @@ public class ProductManagerImpl implements IProductManager {
 
         BigDecimal grandTotal = priceSubtotal.add(taxSubtotal);
 
-        return new BillEntity(productTaxEntities, priceSubtotal, taxSubtotal, grandTotal);
+        return Optional.of(new BillEntity(productTaxEntities, priceSubtotal, taxSubtotal, grandTotal));
     }
 
 }
